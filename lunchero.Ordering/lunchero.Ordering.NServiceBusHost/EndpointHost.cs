@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Autofac;
 using Autofac.Builder;
 using Autofac.Extensions.DependencyInjection;
+using lunchero.Ordering.Infrastructure.Baskets;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NServiceBus;
@@ -41,6 +43,11 @@ namespace lunchero.Ordering.NServiceBusHost
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IEndpointInstance>(s => this.endpoint);
+
+            var basketsConnectionString = configuration.GetConnectionString("BasketsConnectionString");
+            services.AddDbContext<BasketsContext>(options => {
+                options.UseSqlServer(basketsConnectionString);
+            });
         }
 
         public async Task Start()
