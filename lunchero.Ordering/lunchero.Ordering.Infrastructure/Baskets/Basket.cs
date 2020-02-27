@@ -24,7 +24,11 @@ namespace lunchero.Ordering.Infrastructure.Baskets
 
     public class BasketItem
     {
+
+        public Guid PickupId { get; set; }
+
         public string ArticleNumber { get; set; }
+
         public int Quantity { get; set; }
 
     }

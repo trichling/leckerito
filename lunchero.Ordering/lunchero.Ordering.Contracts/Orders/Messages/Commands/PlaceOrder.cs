@@ -10,6 +10,8 @@ namespace lunchero.Ordering.Contracts.Orders.Messages.Commands
         
         public Guid UserId { get; set; }
 
+        public Guid PickupId { get; set; }
+
         public string ArticleNumber { get; set; }
 
         public int Quantity { get; set; }

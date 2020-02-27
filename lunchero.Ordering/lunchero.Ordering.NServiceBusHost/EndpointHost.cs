@@ -7,6 +7,7 @@ using Autofac;
 using Autofac.Builder;
 using Autofac.Extensions.DependencyInjection;
 using lunchero.Ordering.Infrastructure.Baskets;
+using lunchero.Ordering.Infrastructure.Orders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -49,9 +50,13 @@ namespace lunchero.Ordering.NServiceBusHost
         {
             services.AddSingleton<IEndpointInstance>(s => this.endpoint);
 
-            var basketsConnectionString = configuration.GetConnectionString("BasketsDb");
+            var orderingDbConnectionString = configuration.GetConnectionString("OrderingDb");
             services.AddDbContext<BasketsContext>(options => {
-                options.UseSqlServer(basketsConnectionString);
+                options.UseSqlServer(orderingDbConnectionString);
+            });
+
+            services.AddDbContext<OrdersContext>(options => {
+                options.UseSqlServer(orderingDbConnectionString);
             });
         }
 
@@ -78,7 +83,9 @@ namespace lunchero.Ordering.NServiceBusHost
             return services.AddNServiceBus()
                 .WithEndpoint(EndpointName)
                 .WithTransport<LearningTransport>()
-                .WithRouting(routing => {})
+                .WithRouting(routing => {
+                    routing.RouteToEndpoint(typeof(Contracts.Messages.MyMessage).Assembly, EndpointName);
+                })
                 .WithConventions(conventions => {
                     conventions.DefiningMessagesAs(t => t.Namespace.EndsWith("Messages"));
                     conventions.DefiningCommandsAs(t => t.Namespace.Contains("Commands"));

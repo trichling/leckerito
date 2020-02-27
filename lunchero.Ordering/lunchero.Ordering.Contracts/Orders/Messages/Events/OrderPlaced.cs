@@ -6,7 +6,7 @@ namespace lunchero.Ordering.Contracts.Orders.Messages.Events
     {
         public Guid OrderId { get; set; }
 
-        public Guid BasketId { get; set; }
+        public Guid PickupId { get; set; }
         
         public Guid UserId { get; set; }
 

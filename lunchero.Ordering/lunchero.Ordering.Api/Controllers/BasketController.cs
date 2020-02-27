@@ -27,6 +27,7 @@ namespace lunchero.Ordering.Api.Controllers
 
             await this.endpoint.Send(new AddArticleToBasket() {
                 UserId = userId,
+                PickupId = article.PickupId,
                 ArticleNumber = article.ArticleNumber,
                 Quantity = article.Quantity
             }).ConfigureAwait(false);
