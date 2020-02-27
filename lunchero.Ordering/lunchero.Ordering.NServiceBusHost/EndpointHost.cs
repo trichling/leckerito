@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data.Common;
+using System.Data.SqlClient;
 using System.Reflection;
 using System.Threading.Tasks;
 using Autofac;
@@ -21,6 +23,7 @@ namespace lunchero.Ordering.NServiceBusHost
         public static readonly string EndpointName = "leckerito.lunchero.Ordering";
 
         private readonly IConfiguration configuration;
+        private string nsbPersistenceConnectionString;
         private readonly IServiceCollection services;
         private IEndpointInstance endpoint;
         private IManageAnEndpoint endpointManager;
@@ -37,6 +40,8 @@ namespace lunchero.Ordering.NServiceBusHost
                 .AddJsonFile($"appsettings.{environment}.json", true, true)
                 .Build();
 
+            nsbPersistenceConnectionString = configuration.GetConnectionString("NServiceBusPersistence");
+
             this.services = services;
         }
 
@@ -44,7 +49,7 @@ namespace lunchero.Ordering.NServiceBusHost
         {
             services.AddSingleton<IEndpointInstance>(s => this.endpoint);
 
-            var basketsConnectionString = configuration.GetConnectionString("BasketsConnectionString");
+            var basketsConnectionString = configuration.GetConnectionString("BasketsDb");
             services.AddDbContext<BasketsContext>(options => {
                 options.UseSqlServer(basketsConnectionString);
             });
@@ -79,7 +84,11 @@ namespace lunchero.Ordering.NServiceBusHost
                     conventions.DefiningCommandsAs(t => t.Namespace.Contains("Commands"));
                     conventions.DefiningEventsAs(t => t.Namespace.Contains("Events"));
                 })
-                .WithPersistence<LearningPersistence>()
+                .WithPersistence<SqlPersistence>(persistence => {
+                    persistence.ConnectionBuilder(() => new SqlConnection(nsbPersistenceConnectionString));
+                    persistence.SqlDialect<SqlDialect.MsSqlServer>();
+                    persistence.TablePrefix(EndpointName);
+                })
                 .WithDependencyInjection(this.services);
         }
 

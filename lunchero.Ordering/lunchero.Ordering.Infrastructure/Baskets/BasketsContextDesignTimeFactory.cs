@@ -8,7 +8,7 @@ namespace lunchero.Ordering.Infrastructure.Baskets
         public BasketsContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<BasketsContext>();
-            optionsBuilder.UseSqlServer("Server=(local);Database=leckerito.lunchero.OrderingDb;Trusted_Connection=true");
+            optionsBuilder.UseSqlServer("Server=(local);Database=leckerito.lunchero;Trusted_Connection=true");
             return new BasketsContext(optionsBuilder.Options);
         }
     }
