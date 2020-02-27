@@ -118,9 +118,13 @@ namespace lunchero.Ordering.NServiceBusHost
 
         public static IConfigureAnEndpoint WithDependencyInjection(this IConfigureAnEndpoint endpointConfiguration, IServiceCollection services)
         {
-            var builder = new ContainerBuilder();
-            builder.Populate(services);
-            IContainer container = builder.Build(ContainerBuildOptions.None);
+            endpointConfiguration.WithConfiguration(config => {
+                config.UseContainer(new AutofacServiceProviderFactory(containerBuilder =>
+                {
+                    containerBuilder.Populate(services);
+                }));
+            });
+
             return endpointConfiguration;
         }
 

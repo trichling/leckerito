@@ -95,5 +95,6 @@ dotnet add package NServiceBus.Persistence.Sql
 dotnet add package NServiceBus.FluentConfiguration.WebApi
 dotnet add package Microsoft.Extensions.Configuration.Json
 dotnet add package Autofac.Extensions.DependencyInjection
+dotnet add package NServiceBus.Extensions.DependencyInjection
 dotnet restore
 

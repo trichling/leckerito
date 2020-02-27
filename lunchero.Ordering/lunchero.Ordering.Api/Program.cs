@@ -25,6 +25,10 @@ namespace lunchero.Ordering.Api
                 })
                 .UseNServiceBus(hostBuilder => {
                     return new NServiceBusHost.EndpointHost().ConfigureSendOnlyApiEndpoint();
+                })
+                .UseDefaultServiceProvider(options => {
+                    options.ValidateOnBuild = false;
+                    options.ValidateScopes = false;
                 });
     }
 }
