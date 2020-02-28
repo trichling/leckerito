@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <ItemGroup>
+    <ProjectReference Include="..\lunchero.Warehouse.Application\lunchero.Warehouse.Application.csproj" />
+    <ProjectReference Include="..\lunchero.Warehouse.Contracts\lunchero.Warehouse.Contracts.csproj" />
+    <ProjectReference Include="..\lunchero.Warehouse.Infrastructure\lunchero.Warehouse.Infrastructure.csproj" />
+    <ProjectReference Include="..\lunchero.Warehouse.NServiceBusHost\lunchero.Warehouse.NServiceBusHost.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="NServiceBus" Version="7.2.3" />
+    <PackageReference Include="NServiceBus.Extensions.Hosting" Version="1.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+
+</Project>

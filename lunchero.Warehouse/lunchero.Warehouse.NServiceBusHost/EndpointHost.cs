@@ -9,12 +9,12 @@ using NServiceBus;
 using NServiceBus.FluentConfiguration.Core;
 using NServiceBus.FluentConfiguration.WebApi;
 
-namespace ##SolutionAndProjectName##
+namespace lunchero.Warehouse.NServiceBusHost
 {
     public class EndpointHost
     {
 
-        public static readonly string EndpointName = "##SolutionName##";
+        public static readonly string EndpointName = "leckerito.lunchero.Warehouse";
         private readonly string nsbPersistenceConnectionString;
         private readonly IConfiguration configuration;
         private readonly IServiceCollection services;
@@ -121,3 +121,4 @@ namespace ##SolutionAndProjectName##
     }
 
 }
+

@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\lunchero.Warehouse.Application\lunchero.Warehouse.Application.csproj" />
+    <ProjectReference Include="..\lunchero.Warehouse.Contracts\lunchero.Warehouse.Contracts.csproj" />
+    <ProjectReference Include="..\lunchero.Warehouse.Infrastructure\lunchero.Warehouse.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.2" />
+    <PackageReference Include="NServiceBus" Version="7.2.3" />
+    <PackageReference Include="NServiceBus.Extensions.DependencyInjection" Version="1.0.0" />
+    <PackageReference Include="NServiceBus.FluentConfiguration.WebApi" Version="1.2.0" />
+    <PackageReference Include="NServiceBus.Persistence.Sql" Version="5.0.0" />
+    <PackageReference Include="NServiceBus.SqlServer" Version="6.0.0" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+</Project>
