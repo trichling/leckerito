@@ -24,7 +24,8 @@ namespace lunchero.Ordering.NServiceBusHost
         public static readonly string EndpointName = "leckerito.lunchero.Ordering";
 
         private readonly IConfiguration configuration;
-        private string nsbPersistenceConnectionString;
+        private readonly string nsbPersistenceConnectionString;
+        private readonly string nsbTransportConnectionString;
         private readonly IServiceCollection services;
         private IEndpointInstance endpoint;
         private IManageAnEndpoint endpointManager;
@@ -37,11 +38,14 @@ namespace lunchero.Ordering.NServiceBusHost
         {
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Local";
             configuration = new ConfigurationBuilder()
+                .AddUserSecrets(typeof(Program).Assembly)
                 .AddJsonFile("appsettings.json", false, true)
                 .AddJsonFile($"appsettings.{environment}.json", true, true)
                 .Build();
 
+            var accessKey = configuration["NServiceBusAccessKey"];
             nsbPersistenceConnectionString = configuration.GetConnectionString("NServiceBusPersistence");
+            nsbTransportConnectionString = string.Format(configuration.GetConnectionString("NServiceBusTransport"), accessKey);
 
             this.services = services;
         }
@@ -82,7 +86,10 @@ namespace lunchero.Ordering.NServiceBusHost
         {
             return services.AddNServiceBus()
                 .WithEndpoint(EndpointName)
-                .WithTransport<LearningTransport>()
+                .WithTransport<AzureServiceBusTransport>(transport => {
+                    transport.ConnectionString(nsbTransportConnectionString);
+                    transport.RuleNameShortener(s => s.Substring(s.Length - 49));
+                })
                 .WithRouting(routing => {
                     routing.RouteToEndpoint(typeof(Contracts.Messages.MyMessage).Assembly, EndpointName);
                 })
@@ -96,7 +103,8 @@ namespace lunchero.Ordering.NServiceBusHost
                     persistence.SqlDialect<SqlDialect.MsSqlServer>();
                     persistence.TablePrefix(EndpointName);
                 })
-                .WithDependencyInjection(this.services);
+                .WithDependencyInjection(this.services)
+                .WithConfiguration(cfg => cfg.EnableInstallers());
         }
 
         public EndpointConfiguration ConfigureSendOnlyApiEndpoint()
@@ -105,7 +113,10 @@ namespace lunchero.Ordering.NServiceBusHost
                 .WithEndpoint(EndpointName + ".Sender", cfg => {
                     cfg.SendOnly();
                 })
-                .WithTransport<LearningTransport>()
+                .WithTransport<AzureServiceBusTransport>(transport => {
+                    transport.ConnectionString(nsbTransportConnectionString);
+                    transport.RuleNameShortener(s => s.Substring(s.Length - 49));
+                })
                 .WithRouting(routing => {
                     routing.RouteToEndpoint(typeof(Contracts.Messages.MyMessage).Assembly, EndpointName);
                 })

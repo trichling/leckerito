@@ -96,5 +96,7 @@ dotnet add package NServiceBus.FluentConfiguration.WebApi
 dotnet add package Microsoft.Extensions.Configuration.Json
 dotnet add package Autofac.Extensions.DependencyInjection
 dotnet add package NServiceBus.Extensions.DependencyInjection
+dotnet add package NServiceBus.Transport.AzureServiceBus
 dotnet restore
-
+dotnet user-secrets init
+dotnet user-secrets set "NServiceBusAccessKey" ""

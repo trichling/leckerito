@@ -16,6 +16,7 @@ namespace ##SolutionAndProjectName##
 
         public static readonly string EndpointName = "##SolutionName##";
         private readonly string nsbPersistenceConnectionString;
+        private readonly string nsbTransportConnectionString;
         private readonly IConfiguration configuration;
         private readonly IServiceCollection services;
         private IEndpointInstance endpoint;
@@ -65,7 +66,10 @@ namespace ##SolutionAndProjectName##
         {
             return services.AddNServiceBus()
                 .WithEndpoint(EndpointName)
-                .WithTransport<LearningTransport>()
+                .WithTransport<AzureServiceBusTransport>(transport => {
+                    transport.ConnectionString(nsbTransportConnectionString);
+                    transport.RuleNameShortener(s => s.Substring(s.Length - 49));
+                })
                 .WithRouting(routing => {
                     routing.RouteToEndpoint(typeof(Contracts.Messages.MyMessage).Assembly, EndpointName);
                 })
@@ -79,7 +83,8 @@ namespace ##SolutionAndProjectName##
                     persistence.SqlDialect<SqlDialect.MsSqlServer>();
                     persistence.TablePrefix(EndpointName);
                 })
-                .WithDependencyInjection(this.services);
+                .WithDependencyInjection(this.services)
+                .WithConfiguration(cfg => cfg.EnableInstallers());
         }
 
         public EndpointConfiguration ConfigureSendOnlyApiEndpoint()
@@ -88,7 +93,10 @@ namespace ##SolutionAndProjectName##
                 .WithEndpoint(EndpointName + ".Sender", cfg => {
                     cfg.SendOnly();
                 })
-                .WithTransport<LearningTransport>()
+                .WithTransport<AzureServiceBusTransport>(transport => {
+                    transport.ConnectionString(nsbTransportConnectionString);
+                    transport.RuleNameShortener(s => s.Substring(s.Length - 49));
+                })
                 .WithRouting(routing => {
                     routing.RouteToEndpoint(typeof(Contracts.Class1).Assembly, EndpointName);
                 })

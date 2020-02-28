@@ -1,4 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>{d0a74ed3-64b7-40df-97bd-07f1c80ba5f9}</UserSecretsId>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\lunchero.Ordering.Contracts\lunchero.Ordering.Contracts.csproj"/>
     <ProjectReference Include="..\lunchero.Ordering.Infrastructure\lunchero.Ordering.Infrastructure.csproj"/>
@@ -12,18 +17,15 @@
     <PackageReference Include="NServiceBus.SqlServer" Version="6.0.0"/>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="6.0.0"/>
     <PackageReference Include="NServiceBus.Extensions.DependencyInjection" Version="1.0.0"/>
+    <PackageReference Include="NServiceBus.Transport.AzureServiceBus" Version="1.4.0"/>
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.2"/>
   </ItemGroup>
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-  </PropertyGroup>
-
   <ItemGroup>
-      <Content Include="appsettings.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
-      <Content Include="appsettings.development.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </Content>
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="appsettings.development.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>
