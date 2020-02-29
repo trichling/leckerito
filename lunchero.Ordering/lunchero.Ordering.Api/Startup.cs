@@ -32,6 +32,15 @@ namespace lunchero.Ordering.Api
             services.AddRazorPages();
             services.AddSignalR();
 
+            services.AddAuthentication("Bearer")
+                .AddJwtBearer("Bearer", options =>
+                {
+                    options.Authority = "http://localhost:5000";
+                    options.RequireHttpsMetadata = false;
+
+                    options.Audience = "leckerito.lunchero.Ordering";
+                });
+
             var connectionString = Configuration.GetConnectionString("MyConnectionString");
             services.AddDbContext<OrderingContext>(options => {
                 options.UseSqlServer(connectionString);

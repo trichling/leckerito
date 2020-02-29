@@ -71,6 +71,7 @@ dotnet add reference $($solutionFolder + $solutionName + ".Infrastructure/" + $s
 
 # add common packages 
 Set-Location -Path ($solutionFolder + $solutionName + ".Api")
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
 dotnet add package AutoMapper
 dotnet add package Swashbuckle.AspNetCore
 dotnet add package NServiceBus
