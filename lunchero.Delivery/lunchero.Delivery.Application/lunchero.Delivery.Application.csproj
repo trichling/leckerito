@@ -4,6 +4,8 @@
     <ProjectReference Include="..\lunchero.Delivery.Contracts\lunchero.Delivery.Contracts.csproj" />
     <ProjectReference Include="..\lunchero.Delivery.Infrastructure\lunchero.Delivery.Infrastructure.csproj" />
     <ProjectReference Include="..\..\lunchero.Ordering\lunchero.Ordering.Contracts\lunchero.Ordering.Contracts.csproj" />
+    <ProjectReference Include="..\..\lunchero.Warehouse\lunchero.Warehouse.Contracts\lunchero.Warehouse.Contracts.csproj" />
+    <ProjectReference Include="..\..\lunchero.Pricing\lunchero.Pricing.Contracts\lunchero.Pricing.Contracts.csproj" />
   </ItemGroup>
 
   <ItemGroup>
