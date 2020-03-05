@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\lunchero.Pricing.Contracts\lunchero.Pricing.Contracts.csproj" />
+    <ProjectReference Include="..\lunchero.Pricing.Infrastructure\lunchero.Pricing.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\lunchero.Ordering\lunchero.Ordering.Contracts\lunchero.Ordering.Contracts.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="9.0.0" />
+    <PackageReference Include="NServiceBus" Version="7.2.3" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+</Project>
