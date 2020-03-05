@@ -125,7 +125,6 @@ namespace lunchero.Ordering.NServiceBusHost
                     conventions.DefiningCommandsAs(t => t.Namespace.Contains("Commands"));
                     conventions.DefiningEventsAs(t => t.Namespace.Contains("Events"));
                 })
-                .WithPersistence<LearningPersistence>()
                 .Configuration;
         }
 

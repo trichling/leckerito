@@ -1,0 +1,48 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "compounds": [
+        {
+            "name": "API and NSB",
+            "configurations": [".NET Core Launch (web)",".NET Core Launch NServiceBusHost"]
+        }
+    ],
+    "configurations": [
+        {
+            "name": ".NET Core Launch (web)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/lunchero.Warehouse.Api/bin/Debug/netcoreapp3.1/lunchero.Warehouse.Api.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/lunchero.Warehouse.Api",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "^\\s*Now listening on:\\s+(https?://\\S+)"
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": ".NET Core Launch NServiceBusHost",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "buildNSBHost",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/lunchero.Warehouse.NServiceBusHost/bin/Debug/netcoreapp3.1/lunchero.Warehouse.NServiceBusHost.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/lunchero.Warehouse.Api",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            }
+        }
+    ]
+}

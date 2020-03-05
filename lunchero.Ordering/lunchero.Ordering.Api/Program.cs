@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using lunchero.Ordering.NServiceBusHost;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -24,7 +25,7 @@ namespace lunchero.Ordering.Api
                     webBuilder.UseStartup<Startup>();
                 })
                 .UseNServiceBus(hostBuilder => {
-                    return new NServiceBusHost.EndpointHost().ConfigureSendOnlyApiEndpoint();
+                    return new EndpointHost().ConfigureSendOnlyApiEndpoint();
                 })
                 .UseDefaultServiceProvider(options => {
                     options.ValidateOnBuild = false;

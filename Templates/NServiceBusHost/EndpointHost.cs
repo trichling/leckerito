@@ -102,7 +102,7 @@ namespace ##SolutionAndProjectName##
                     transport.RuleNameShortener(s => s.Substring(s.Length - 49));
                 })
                 .WithRouting(routing => {
-                    routing.RouteToEndpoint(typeof(Contracts.Class1).Assembly, EndpointName);
+                    routing.RouteToEndpoint(typeof(Contracts.Messages.MyMessage).Assembly, EndpointName);
                 })
                 .WithConventions(conventions => {
                     conventions.DefiningMessagesAs(t => t.Namespace.EndsWith("Messages"));
