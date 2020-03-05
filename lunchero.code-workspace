@@ -1,0 +1,61 @@
+{
+	"folders": [
+		{
+			"name": "Delivery",
+			"path": "lunchero.Delivery"
+		},
+		{
+			"name": "Ordering",
+			"path": "lunchero.Ordering"
+		},
+		{
+			"name": "Pricing",
+			"path": "lunchero.Pricing"
+		},
+		{
+			"name": "Warehouse",
+			"path": "lunchero.Warehouse"
+		}
+	],
+	"launch": {
+		"compounds": [
+			{
+				"name": "All APIs and Enpoints",
+				"configurations": [
+					{
+						"folder": "Delivery",
+						"name": ".NET Core Launch (web)"
+					},
+					{
+						"folder": "Delivery",
+						"name": ".NET Core Launch NServiceBusHost"
+					},
+					{
+						"folder": "Ordering",
+						"name": ".NET Core Launch (web)"
+					},
+					{
+						"folder": "Ordering",
+						"name": ".NET Core Launch NServiceBusHost"
+					},
+					{
+						"folder": "Pricing",
+						"name": ".NET Core Launch (web)"
+					},
+					{
+						"folder": "Pricing",
+						"name": ".NET Core Launch NServiceBusHost"
+					},
+					{
+						"folder": "Warehouse",
+						"name": ".NET Core Launch (web)"
+					},
+					{
+						"folder": "Warehouse",
+						"name": ".NET Core Launch NServiceBusHost"
+					}
+				]
+			}
+		]
+	}
+}
