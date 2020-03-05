@@ -98,6 +98,7 @@ dotnet add package Microsoft.Extensions.Configuration.Json
 dotnet add package Autofac.Extensions.DependencyInjection
 dotnet add package NServiceBus.Extensions.DependencyInjection
 dotnet add package NServiceBus.Transport.AzureServiceBus
+dotnet add package Microsoft.Extensions.Configuration.UserSecrets
 dotnet restore
 dotnet user-secrets init
 dotnet user-secrets set "NServiceBusAccessKey" ""

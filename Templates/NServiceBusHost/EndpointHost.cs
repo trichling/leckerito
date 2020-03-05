@@ -30,11 +30,15 @@ namespace ##SolutionAndProjectName##
         {
             var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Local";
             configuration = new ConfigurationBuilder()
+                .AddUserSecrets(typeof(Program).Assembly)
                 .AddJsonFile("appsettings.json", false, true)
                 .AddJsonFile($"appsettings.{environment}.json", true, true)
                 .Build();
 
+            var accessKey = configuration["NServiceBusAccessKey"];
             nsbPersistenceConnectionString = configuration.GetConnectionString("NServiceBusPersistence");
+            nsbTransportConnectionString = string.Format(configuration.GetConnectionString("NServiceBusTransport"), accessKey);
+
 
             this.services = services;
         }
@@ -105,7 +109,6 @@ namespace ##SolutionAndProjectName##
                     conventions.DefiningCommandsAs(t => t.Namespace.Contains("Commands"));
                     conventions.DefiningEventsAs(t => t.Namespace.Contains("Events"));
                 })
-                .WithPersistence<LearningPersistence>()
                 .Configuration;
         }
 
