@@ -1,22 +1,20 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
 
-namespace leckerito.Framework.Composition.ViewModels
+namespace leckerito.Framework.Composition.Commands
 {
-
-    public class ViewModelAppenderLocator : IViewModelAppenderProvider
+    public class CommandAttacherLocator : ICommandAttacherProvider
     {
 
-        public IEnumerable<IViewModelAppender> Appenders { get; set; }
+        public IEnumerable<ICommandAttacher> Attachers { get; set; }
 
-        public IEnumerable<IViewModelAppender> AppendersFor<T>()
+        public IEnumerable<ICommandAttacher> AttachersFor<T>()
         {
-            return Appenders.Where(a => a.WillAppendTo(typeof(T)))
-                .Cast<IViewModelAppender<T>>();
+            return Attachers.Where(a => a.WillAttachTo(typeof(T)))
+                .Cast<ICommandAttacher<T>>();
         }
 
         public void DiscoverFromAllLoadedAssemblies()
@@ -38,15 +36,13 @@ namespace leckerito.Framework.Composition.ViewModels
         {
             var viewModelAppender = assemblies.SelectMany(a => a.DefinedTypes)
                     .Where(t => !t.IsAbstract && !t.IsInterface)
-                    .Where(t => typeof(IViewModelAppender).IsAssignableFrom(t))
+                    .Where(t => typeof(ICommandAttacher).IsAssignableFrom(t))
                     .Select(t => t.AsType());
 
-            Appenders = viewModelAppender
+            Attachers = viewModelAppender
                             .Select(Activator.CreateInstance)
-                            .Cast<IViewModelAppender>()
+                            .Cast<ICommandAttacher>()
                             .ToList();
         }
-
-       
     }
 }

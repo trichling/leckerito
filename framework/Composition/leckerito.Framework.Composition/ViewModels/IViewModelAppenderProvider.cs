@@ -4,6 +4,6 @@ namespace leckerito.Framework.Composition.ViewModels
 {
     public interface IViewModelAppenderProvider
     {
-        IEnumerable<IViewModelAppender<T>> AppendersFor<T>();
+        IEnumerable<IViewModelAppender> AppendersFor<T>();
     }
 }

@@ -9,6 +9,8 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.0"/>
     <PackageReference Include="coverlet.collector" Version="1.0.1"/>
     <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2"/>
+    <PackageReference Include="NServiceBus" Version="7.2.3"/>
+    <PackageReference Include="NServiceBus.Testing" Version="7.2.0"/>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\leckerito.Framework.Composition\leckerito.framework.Composition.csproj"/>
