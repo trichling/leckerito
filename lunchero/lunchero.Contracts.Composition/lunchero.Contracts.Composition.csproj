@@ -2,7 +2,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\framework\Composition\leckerito.Framework.Composition\leckerito.framework.Composition.csproj" />
-    <ProjectReference Include="..\..\lunchero\lunchero.Contracts.Composition\lunchero.Contracts.Composition.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

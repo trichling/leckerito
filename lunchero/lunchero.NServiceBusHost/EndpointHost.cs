@@ -1,31 +1,24 @@
-﻿using System;
-using System.Data.Common;
+using System;
 using System.Data.SqlClient;
-using System.Reflection;
 using System.Threading.Tasks;
 using Autofac;
 using Autofac.Builder;
 using Autofac.Extensions.DependencyInjection;
-using lunchero.Ordering.Infrastructure.Baskets;
-using lunchero.Ordering.Infrastructure.Orders;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NServiceBus;
 using NServiceBus.FluentConfiguration.Core;
 using NServiceBus.FluentConfiguration.WebApi;
 
-namespace lunchero.Ordering.NServiceBusHost
+namespace lunchero.NServiceBusHost
 {
-
     public class EndpointHost
     {
 
-        public static readonly string EndpointName = "lunchero.Ordering";
-
-        private readonly IConfiguration configuration;
+        public static readonly string EndpointName = "lunchero";
         private readonly string nsbPersistenceConnectionString;
         private readonly string nsbTransportConnectionString;
+        private readonly IConfiguration configuration;
         private readonly IServiceCollection services;
         private IEndpointInstance endpoint;
         private IManageAnEndpoint endpointManager;
@@ -47,21 +40,13 @@ namespace lunchero.Ordering.NServiceBusHost
             nsbPersistenceConnectionString = configuration.GetConnectionString("NServiceBusPersistence");
             nsbTransportConnectionString = string.Format(configuration.GetConnectionString("NServiceBusTransport"), accessKey);
 
+
             this.services = services;
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<IEndpointInstance>(s => this.endpoint);
-
-            var orderingDbConnectionString = configuration.GetConnectionString("OrderingDb");
-            services.AddDbContext<BasketsContext>(options => {
-                options.UseSqlServer(orderingDbConnectionString);
-            });
-
-            services.AddDbContext<OrdersContext>(options => {
-                options.UseSqlServer(orderingDbConnectionString);
-            });
         }
 
         public async Task Start()
@@ -148,3 +133,4 @@ namespace lunchero.Ordering.NServiceBusHost
     }
 
 }
+

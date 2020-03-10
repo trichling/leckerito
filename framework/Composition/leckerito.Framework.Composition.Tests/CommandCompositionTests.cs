@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using leckerito.Framework.Composition.Commands;
+using leckerito.Framework.Composition.CommandExecution;
 using NServiceBus;
 using NServiceBus.Testing;
 using Xunit;
@@ -14,7 +14,7 @@ namespace leckerito.Framework.Composition.Tests
         {
             var endpoint = new TestableEndpointInstance();
             var commandAttacherLocator = new CommandAttacherLocator();
-            commandAttacherLocator.DiscoverFromAllLoadedAssemblies();
+            commandAttacherLocator.Discover();
 
             var executor = new CommandExecutor(commandAttacherLocator);
 

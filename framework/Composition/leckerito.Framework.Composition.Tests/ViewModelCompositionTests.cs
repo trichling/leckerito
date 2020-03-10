@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
-using leckerito.Framework.Composition.ViewModels;
+using leckerito.Framework.Composition.ViewModelComposing;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Xunit;
 
 namespace leckerito.Framework.Composition.Tests
@@ -14,19 +15,17 @@ namespace leckerito.Framework.Composition.Tests
         [Fact]
         public void CanDiscoverSomeAppender()
         {
-            var assemblies = new List<Assembly>() { this.GetType().Assembly };
-
             var viewModelAppenderLocator = new ViewModelAppenderLocator();
-            viewModelAppenderLocator.DiscoverFromAsseblies(assemblies);
+            viewModelAppenderLocator.Discover();
 
-            Assert.Equal(1, viewModelAppenderLocator.Appenders.Count());
+            Assert.Equal(2, viewModelAppenderLocator.Appenders.Count());
         }
 
         [Fact]
         public void CanDiscoverFromAllAssemblies()
         {
             var viewModelAppenderLocator = new ViewModelAppenderLocator();
-            viewModelAppenderLocator.DiscoverFromAllLoadedAssemblies();
+            viewModelAppenderLocator.Discover();
 
             Assert.Equal(1, viewModelAppenderLocator.Appenders.Count());
         }
@@ -35,11 +34,11 @@ namespace leckerito.Framework.Composition.Tests
         public async Task CanComposeSomeViewModel()
         {
             var viewModelAppenderLocator = new ViewModelAppenderLocator();
-            viewModelAppenderLocator.DiscoverFromAllLoadedAssemblies();
+            viewModelAppenderLocator.Discover();
 
             var viewModelBuilder = new ViewModelComposer(viewModelAppenderLocator);
             var viewModel = new SomeViewModel();
-            viewModel = await viewModelBuilder.Compose<SomeViewModel>(viewModel, new CompositionContext(viewModelBuilder)).ConfigureAwait(false);
+            viewModel = await viewModelBuilder.Compose<SomeViewModel>(viewModel, new CompositionContext(viewModelBuilder, new DefaultHttpContext(), new RouteData())).ConfigureAwait(false);
 
             Assert.Equal("Hi, I am provided by SomeViewModelAppender", viewModel.ProvidedBySomeAppender);
         }
@@ -48,11 +47,11 @@ namespace leckerito.Framework.Composition.Tests
         public async Task CanComposeToExistingInstanceOfSomeViewModel()
         {
             var viewModelAppenderLocator = new ViewModelAppenderLocator();
-            viewModelAppenderLocator.DiscoverFromAllLoadedAssemblies();
+            viewModelAppenderLocator.Discover();
 
             var viewModel = new SomeViewModel();
             var viewModelBuilder = new ViewModelComposer(viewModelAppenderLocator);
-            viewModel = await viewModelBuilder.Compose(viewModel, new CompositionContext(viewModelBuilder)).ConfigureAwait(false);
+            viewModel = await viewModelBuilder.Compose(viewModel, new CompositionContext(viewModelBuilder, new DefaultHttpContext(), new RouteData())).ConfigureAwait(false);
 
             Assert.Equal("Hi, I am provided by SomeViewModelAppender", viewModel.ProvidedBySomeAppender);
         }
@@ -61,11 +60,11 @@ namespace leckerito.Framework.Composition.Tests
         public async Task CanComposeToListOfSomeViewModel()
         {
             var viewModelAppenderLocator = new ViewModelAppenderLocator();
-            viewModelAppenderLocator.DiscoverFromAllLoadedAssemblies();
+            viewModelAppenderLocator.Discover();
 
             var viewModel = Enumerable.Range(0, 10).Select(i => new SomeViewModel() { Id = Guid.NewGuid() });
             var viewModelBuilder = new ViewModelComposer(viewModelAppenderLocator);
-            viewModel = await viewModelBuilder.Compose<SomeViewModel>(viewModel, new CompositionContext(viewModelBuilder)).ConfigureAwait(false);
+            viewModel = await viewModelBuilder.Compose<SomeViewModel>(viewModel, new CompositionContext(viewModelBuilder, new DefaultHttpContext(), new RouteData())).ConfigureAwait(false);
 
             Assert.True(viewModel.All(vm => vm.ProvidedBySomeAppender == "Hi, I am provided by SomeViewModelAppender"));
         }
@@ -74,11 +73,11 @@ namespace leckerito.Framework.Composition.Tests
         public async Task CanComposeViewModelWithList()
         {
             var viewModelAppenderLocator = new ViewModelAppenderLocator();
-            viewModelAppenderLocator.DiscoverFromAllLoadedAssemblies();
+            viewModelAppenderLocator.Discover();
 
             var viewModel = new ViewModelWithListOfSomeViewModel();
             var viewModelBuilder = new ViewModelComposer(viewModelAppenderLocator);
-            viewModel = await viewModelBuilder.Compose(viewModel, new CompositionContext(viewModelBuilder)).ConfigureAwait(false);
+            viewModel = await viewModelBuilder.Compose(viewModel, new CompositionContext(viewModelBuilder, new DefaultHttpContext(), new RouteData())).ConfigureAwait(false);
 
         }
     }
