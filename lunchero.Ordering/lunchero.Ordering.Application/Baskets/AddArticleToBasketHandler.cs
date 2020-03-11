@@ -21,12 +21,12 @@ namespace lunchero.Ordering.Application.Baskets
 
         public async Task Handle(AddArticleToBasket message, IMessageHandlerContext context)
         {
-            var basket = basketsContext.Baskets.SingleOrDefault(b => b.UserId == message.UserId && b.CheckedOutOn == null);
+            var basket = basketsContext.Baskets.SingleOrDefault(b => b.Id == message.BasketId &&  b.UserId == message.UserId && b.CheckedOutOn == null);
 
             if (basket == null)
             {
                 basket = new Basket() {
-                    Id = Guid.NewGuid(),
+                    Id = message.BasketId,
                     UserId = message.UserId
                 };
 

@@ -14,6 +14,7 @@ namespace lunchero.Ordering.Contracts.Baskets.CommandAttacher
         {
             var command = new AddArticleToBasket()
             {
+                BasketId = viewModel.BasketId,
                 UserId = viewModel.UserId,
                 ArticleNumber = viewModel.ArticleNumber,
                 Quantity = viewModel.Quantity,

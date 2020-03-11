@@ -35,7 +35,6 @@ namespace lunchero.Ordering.Application.Baskets
                     Id = Guid.NewGuid(),
                     UserId = message.UserId,
                     BasketId = basket.Id,
-                    PickupId = order.PickupId,
                     ArticleNumber = order.ArticleNumber,
                     Quantity = order.Quantity
                 }).ConfigureAwait(false);

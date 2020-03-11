@@ -12,6 +12,7 @@ namespace lunchero.Ordering.Contracts.Baskets.CommandAttacher
         {
             var command = new CheckOutBasket() 
             {
+                BasketId = viewModel.BasketId,
                 UserId = viewModel.UserId
             };
 

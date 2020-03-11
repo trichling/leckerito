@@ -12,7 +12,7 @@ namespace lunchero.Pricing.Contracts.Baskets.CommandAttacher
         {
             var command = new CheckOutBasket() 
             {
-                UserId = viewModel.UserId
+                BasketId = viewModel.BasketId
             };
 
             await endpoint.Send("lunchero.Pricing", command);
