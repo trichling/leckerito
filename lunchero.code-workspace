@@ -1,6 +1,10 @@
 {
 	"folders": [
 		{
+			"name": "lunchero",
+			"path": "lunchero"
+		},
+		{
 			"name": "Delivery",
 			"path": "lunchero.Delivery"
 		},
@@ -22,6 +26,10 @@
 			{
 				"name": "All APIs and Enpoints",
 				"configurations": [
+					{
+						"folder": "lunchero",
+						"name": ".NET Core Launch (web)"
+					},
 					{
 						"folder": "Delivery",
 						"name": ".NET Core Launch (web)"
