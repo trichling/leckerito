@@ -4,6 +4,6 @@ namespace lunchero.Pricing.Contracts.PriceCalculation.Messages.Events
 {
     public class PriceMismatch
     {
-        public Guid OrderId { get; set; }
+        public Guid MealId { get; set; }
     }
 }

@@ -1,6 +1,6 @@
 namespace lunchero.Contracts.Messages
 {
-    public class MyMessage
+    public class MyMessage 
     {
         
     }

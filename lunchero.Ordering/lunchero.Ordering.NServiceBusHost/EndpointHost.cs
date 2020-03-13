@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using Autofac;
 using Autofac.Builder;
 using Autofac.Extensions.DependencyInjection;
-using lunchero.Ordering.Infrastructure.Baskets;
-using lunchero.Ordering.Infrastructure.Orders;
+using lunchero.Ordering.Infrastructure.Meals;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -55,11 +54,8 @@ namespace lunchero.Ordering.NServiceBusHost
             services.AddSingleton<IEndpointInstance>(s => this.endpoint);
 
             var orderingDbConnectionString = configuration.GetConnectionString("OrderingDb");
-            services.AddDbContext<BasketsContext>(options => {
-                options.UseSqlServer(orderingDbConnectionString);
-            });
 
-            services.AddDbContext<OrdersContext>(options => {
+            services.AddDbContext<MealsContext>(options => {
                 options.UseSqlServer(orderingDbConnectionString);
             });
         }
@@ -86,10 +82,11 @@ namespace lunchero.Ordering.NServiceBusHost
         {
             return services.AddNServiceBus()
                 .WithEndpoint(EndpointName)
-                .WithTransport<AzureServiceBusTransport>(transport => {
-                    transport.ConnectionString(nsbTransportConnectionString);
-                    transport.RuleNameShortener(s => s.Substring(s.Length - 49));
-                })
+                .WithTransport<LearningTransport>()
+                // .WithTransport<AzureServiceBusTransport>(transport => {
+                //     transport.ConnectionString(nsbTransportConnectionString);
+                //     transport.RuleNameShortener(s => s.Substring(s.Length - 49));
+                // })
                 .WithRouting(routing => {
                     routing.RouteToEndpoint(typeof(Contracts.Messages.MyMessage).Assembly, EndpointName);
                 })
@@ -113,10 +110,11 @@ namespace lunchero.Ordering.NServiceBusHost
                 .WithEndpoint(EndpointName + ".Sender", cfg => {
                     cfg.SendOnly();
                 })
-                .WithTransport<AzureServiceBusTransport>(transport => {
-                    transport.ConnectionString(nsbTransportConnectionString);
-                    transport.RuleNameShortener(s => s.Substring(s.Length - 49));
-                })
+                .WithTransport<LearningTransport>()
+                // .WithTransport<AzureServiceBusTransport>(transport => {
+                //     transport.ConnectionString(nsbTransportConnectionString);
+                //     transport.RuleNameShortener(s => s.Substring(s.Length - 49));
+                // })
                 .WithRouting(routing => {
                     routing.RouteToEndpoint(typeof(Contracts.Messages.MyMessage).Assembly, EndpointName);
                 })

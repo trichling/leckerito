@@ -23,24 +23,25 @@ namespace lunchero.Api.Controllers
             this.endpoint = endpoint;
         }
 
-        [HttpPost("{basketId}")]
-        public async Task<IActionResult> AddToBasket(Guid basketId, AddArticleToBasketModel addArticleToBasket)
+        [HttpPost("")]
+        public async Task<IActionResult> AddToBasket(AddMealToBasketModel addArticleToBasket)
         {
-            addArticleToBasket.BasketId = basketId;
-            addArticleToBasket.UserId = GetUserIdFromLoggedInUser(); ;
+            if (addArticleToBasket.MealId == Guid.Empty)
+                addArticleToBasket.MealId = Guid.NewGuid();
+            
+            addArticleToBasket.TableguestId = GetUserIdFromLoggedInUser();
 
             await commandExecutor.ExecuteCommandsFor(addArticleToBasket, endpoint).ConfigureAwait(false);
 
             return Ok();
         }
 
-        [HttpPost("{basketId}/checkout")]
-        public async Task<IActionResult>  CheckoutToBasket(Guid basketId)
+        [HttpPost("checkout")]
+        public async Task<IActionResult>  CheckoutToBasket()
         {
-            var checkoutBasket = new CheckoutBasketModel() 
+            var checkoutBasket = new CheckoutAllMealsFromBasketModel() 
             {
-                BasketId = basketId,
-                UserId = GetUserIdFromLoggedInUser()
+                TableguestId = GetUserIdFromLoggedInUser()
             };
 
             await commandExecutor.ExecuteCommandsFor(checkoutBasket, endpoint).ConfigureAwait(false);

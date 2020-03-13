@@ -1,46 +1,38 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using lunchero.Ordering.Contracts.Orders.Messages.Commands;
 using lunchero.Ordering.Contracts.Orders.Messages.Events;
-using lunchero.Ordering.Infrastructure.Orders;
+using lunchero.Ordering.Infrastructure.Meals;
 using NServiceBus;
 
 namespace lunchero.Ordering.Application.Orders
 {
     public class PlaceOrderHandler : IHandleMessages<PlaceOrder>
     {
-        private readonly OrdersContext ordersContext;
+        private readonly MealsContext mealsContext;
 
-        public PlaceOrderHandler(OrdersContext ordersContext)
+        public PlaceOrderHandler(MealsContext mealsContext)
         {
-            this.ordersContext = ordersContext;
-
+            this.mealsContext = mealsContext;
         }
 
         public async Task Handle(PlaceOrder message, IMessageHandlerContext context)
         {
-            var orderId = Guid.NewGuid();
+            var meal = mealsContext.Meals.SingleOrDefault(m => m.MealId == message.MealId);
 
-            ordersContext.Orders.Add(new Order()
+            if (meal == null)
+                return;
+
+            await context.Publish(new OrderPlaced()
             {
-                Id = orderId,
-                UserId = message.UserId,
-                OrderedAt = DateTime.Now,
-                PickupId = message.PickupId,
-                ArticleNumber = message.ArticleNumber,
-                Quantity = message.Quantity,
-                Status = OrderStatus.Pending
-            });
-
-            await context.Publish(new OrderPlaced(){
-                OrderId = orderId,
-                UserId = message.UserId,
-                PickupId = message.PickupId,
-                ArticleNumber = message.ArticleNumber,
-                Quantity = message.Quantity
+               MealId = meal.MealId,
+               TableguestId = meal.TableguestId
             }).ConfigureAwait(false);
 
-            await ordersContext.SaveChangesAsync();
+            meal.Status = MealStatus.OrderPlaced;
+
+            await mealsContext.SaveChangesAsync().ConfigureAwait(false);
         }
     }
 }

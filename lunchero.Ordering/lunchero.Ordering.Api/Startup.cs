@@ -41,11 +41,6 @@ namespace lunchero.Ordering.Api
                     options.Audience = "leckerito.lunchero.Ordering";
                 });
 
-            var connectionString = Configuration.GetConnectionString("MyConnectionString");
-            services.AddDbContext<OrderingContext>(options => {
-                options.UseSqlServer(connectionString);
-            });
-
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
             });

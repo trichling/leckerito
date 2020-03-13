@@ -1,5 +1,9 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\lunchero.Pricing.Contracts\lunchero.Pricing.Contracts.csproj" />
     <ProjectReference Include="..\lunchero.Pricing.Infrastructure\lunchero.Pricing.Infrastructure.csproj" />
@@ -11,8 +15,6 @@
     <PackageReference Include="NServiceBus" Version="7.2.3" />
   </ItemGroup>
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-  </PropertyGroup>
+
 
 </Project>

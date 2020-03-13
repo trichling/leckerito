@@ -71,10 +71,11 @@ namespace lunchero.NServiceBusHost
         {
             return services.AddNServiceBus()
                 .WithEndpoint(EndpointName)
-                .WithTransport<AzureServiceBusTransport>(transport => {
-                    transport.ConnectionString(nsbTransportConnectionString);
-                    transport.RuleNameShortener(s => s.Substring(s.Length - 49));
-                })
+                .WithTransport<LearningTransport>()
+                // .WithTransport<AzureServiceBusTransport>(transport => {
+                //     transport.ConnectionString(nsbTransportConnectionString);
+                //     transport.RuleNameShortener(s => s.Substring(s.Length - 49));
+                // })
                 .WithRouting(routing => {
                     routing.RouteToEndpoint(typeof(Contracts.Messages.MyMessage).Assembly, EndpointName);
                 })
@@ -98,10 +99,11 @@ namespace lunchero.NServiceBusHost
                 .WithEndpoint(EndpointName + ".Sender", cfg => {
                     cfg.SendOnly();
                 })
-                .WithTransport<AzureServiceBusTransport>(transport => {
-                    transport.ConnectionString(nsbTransportConnectionString);
-                    transport.RuleNameShortener(s => s.Substring(s.Length - 49));
-                })
+               .WithTransport<LearningTransport>()
+                // .WithTransport<AzureServiceBusTransport>(transport => {
+                //     transport.ConnectionString(nsbTransportConnectionString);
+                //     transport.RuleNameShortener(s => s.Substring(s.Length - 49));
+                // })
                 .WithRouting(routing => {
                     routing.RouteToEndpoint(typeof(Contracts.Messages.MyMessage).Assembly, EndpointName);
                 })
